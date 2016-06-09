@@ -8,7 +8,8 @@ import java.awt.*;
  */
 public class Frame extends JFrame {
 
-    Canvas canvas= new StartPageCanvas(this);
+    Canvas canvas1= new StartPageCanvas();
+
 
     public Frame(){
         super("Quiz Game");
@@ -43,7 +44,7 @@ public class Frame extends JFrame {
 
 
 
-        add(canvas, BorderLayout.CENTER);
+        add(canvas1, BorderLayout.CENTER);
         setBackground(Color.blue);
         setSize(800, 600);
         setResizable(false);
@@ -54,16 +55,7 @@ public class Frame extends JFrame {
 
     }
 
-    public void setCanvas(Canvas can){
-        canvas.setVisible(false);
-        canvas = can;
-        System.out.println("hi");
-        add(can, BorderLayout.CENTER);
-       // canvas.update(getGraphics());
-//        canvas.setVisible(true);
 
-
-    }
 
     public static void main(String[] args) {
         new Frame();

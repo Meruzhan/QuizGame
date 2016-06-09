@@ -1,7 +1,20 @@
 package quizGame;
 
+import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
+import com.sun.java.swing.plaf.motif.MotifMenuBarUI;
+
 import javax.swing.*;
+import javax.swing.plaf.ButtonUI;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicTreeUI;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import javax.swing.plaf.synth.SynthButtonUI;
+import javax.swing.plaf.synth.SynthComboBoxUI;
+import javax.swing.plaf.synth.SynthLookAndFeel;
+import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileReader;
@@ -26,23 +39,64 @@ public class StartPageCanvas extends Canvas {
     private static final int EXIT_BUTTON_Y = 450;
     private static final int EXIT_BUTTON_X = 450;
 
-
-    private boolean isPlayButtonClicked;
-    private boolean isExitButtonClicked;
-
+   private JButton playButton= new JButton("PLAY");
+   private JButton exitButton= new JButton("EXIT");
 
 
 
 
-    //private ButtonClick buttonclicked= ButtonClick.PLAY_BUTTON;
+
+    public StartPageCanvas() {
 
 
-    public StartPageCanvas(Frame frame) {
-    super(frame);
+//        ButtonUI componentUI= new SynthButtonUI();
+//        ButtonUI componentsUI= new SynthButtonUI();
+//        playButton.setUI(componentUI);
+//        exitButton.setUI(componentsUI);
+
+//
+        playButton.setBackground(new Color(153, 135, 255));
+        exitButton.setBackground(new Color(153, 135, 255));
+
+        LookAndFeel lookAndFeel= new javax.swing.plaf.nimbus.NimbusLookAndFeel();
+        try {
+            UIManager.setLookAndFeel(lookAndFeel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        playButton.setUI( new SynthButtonUI());
+
+        add(playButton);
+        add(exitButton);
+
+
+//        playButton.setUI(new SynthButtonUI());
+//        exitButton.setUI(new SynthButtonUI());
+
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onPlayButtonClick();
+            }
+        });
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onExitButtonClick();
+            }
+        });
 
     }
 
+    private void onExitButtonClick() {
 
+        System.exit(0);
+    }
+
+    private void onPlayButtonClick() {
+        changeMode=ModeActivity.SUBJECT_SELECT_PAGE;
+        repaint();
+    }
 
 
     private void startPage(Graphics g) {//draw logo name
@@ -53,51 +107,18 @@ public class StartPageCanvas extends Canvas {
             image = new ImageIcon(getClass().getResource("icons/logo.png")).getImage();
             g.drawImage(image, LOGO_X, LOGO_Y, LOGO_SIZE, LOGO_SIZE, null);
 
+
+
             //draw play button
-            image = new ImageIcon(getClass().getResource("icons/playButton.png")).getImage();
-            g.drawImage(image, PLAY_BUTTON_X, PLAY_BUTTON_Y, START_ACTIVITY_BUTTON_WIDTH, START_ACTIVITY_BUTTON_HEIGHT, null);
+
+            playButton.setBounds(PLAY_BUTTON_X, PLAY_BUTTON_Y, START_ACTIVITY_BUTTON_WIDTH, START_ACTIVITY_BUTTON_HEIGHT);
 
             //draw exit button
-            image = new ImageIcon(getClass().getResource("icons/exitButton.png")).getImage();
-            g.drawImage(image, EXIT_BUTTON_X, EXIT_BUTTON_Y, START_ACTIVITY_BUTTON_WIDTH, START_ACTIVITY_BUTTON_HEIGHT, null);
+            exitButton.setBounds(EXIT_BUTTON_X, EXIT_BUTTON_Y, START_ACTIVITY_BUTTON_WIDTH, START_ACTIVITY_BUTTON_HEIGHT);
+
+
+
             g.drawRect(10, 10, 775, 555);
-
-    }
-
-
-
-    private void questionsPage(Graphics g) {
-
-    }
-
-    private void resultPage(Graphics g) {
-
-    }
-
-
-
-
-
-
-    @Override
-    public void initButtons(MouseEvent e) {
-        isPlayButtonClicked = isBelong(e, PLAY_BUTTON_X, PLAY_BUTTON_Y, START_ACTIVITY_BUTTON_WIDTH, START_ACTIVITY_BUTTON_HEIGHT);
-        isExitButtonClicked = isBelong(e, EXIT_BUTTON_X, EXIT_BUTTON_Y, START_ACTIVITY_BUTTON_WIDTH, START_ACTIVITY_BUTTON_HEIGHT);
-        }
-
-    @Override
-    public void startActivityButtonsClick() {
-        if (isPlayButtonClicked && changeMode == ModeActivity.START_PAGE) {
-            changeMode = ModeActivity.SUBJECT_SELECT_PAGE;
-            setChangeMode(changeMode);
-
-        } else if (isExitButtonClicked && changeMode == ModeActivity.START_PAGE) {
-            System.exit(0);
-        }
-    }
-
-    @Override
-    public void subjectItemsButtonClick() {
 
     }
 
@@ -109,26 +130,4 @@ public class StartPageCanvas extends Canvas {
 
     }
 }
-
-
-//enum ButtonClick{
-//    PLAY_BUTTON,
-//    EXIT_BUTTON,
-//    SUBJECT_1,
-//    SUBJECT_2,
-//    SUBJECT_3,
-//    SUBJECT_4,
-//    SUBJECT_5,
-//    SUBJECT_6,
-//    SUBJECT_7,
-//    SUBJECT_8,
-//    SUBJECT_9,
-//    SUBJECT_10,
-//
-//}
-//
-
-
-
-
 
