@@ -5,46 +5,46 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-/**
- * Created by levon on 6/8/16.
- */
 public abstract class Canvas extends JPanel {
-
-    Canvas canvas1= new StartPageCanvas();
-    Canvas canvas4= new SubjectPageCanvas();
-    Canvas canvas2= new QuestionPageCanvas();
-    Canvas canvas3= new ResultPageCanvas();
-
     protected ModeActivity changeMode = ModeActivity.START_PAGE;
     protected Image image;
+    protected  Image bgImage;
     protected Frame frame;
+    public Canvas(Frame frame ){
 
-    public Canvas() {
-        setBackground(Color.blue);
+        setSize(400,400);
         setVisible(true);
+        this.frame=frame;
+
 
 
     }
 
-
-    public void setChangeMode() {
-        switch (changeMode) {
+    protected void setChangeMode(ModeActivity mode){
+        switch (mode){
             case START_PAGE:
-                canvas1.paint(getGraphics());
+                frame.setCanvas(new StartPageCanvas(frame));
                 break;
             case SUBJECT_SELECT_PAGE:
-                canvas2.paint(getGraphics());
-                break;
-
+                frame.setCanvas(new SubjectPageCanvas(frame));
+                 break;
             case QUESTION_PAGE:
-                canvas3.paint(getGraphics());
+                frame.setCanvas(new QuestionPageCanvas(frame));
                 break;
-
             case RESULT_PAGE:
-                canvas4.paint(getGraphics());
+                frame.setCanvas(new ResultPageCanvas(frame));
                 break;
         }
+
+
     }
+
+    protected  void drawBackground(Graphics g){
+        bgImage=new ImageIcon(getClass().getResource("icons/background.png")).getImage();
+        g.drawImage(bgImage,0,0,800,600,null);
+    }
+
+    protected abstract void setButtonBounds(Graphics g);
 
 
     enum ModeActivity {

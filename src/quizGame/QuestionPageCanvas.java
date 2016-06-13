@@ -1,102 +1,93 @@
 package quizGame;
 
-import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
-import com.sun.java.swing.plaf.motif.MotifButtonUI;
-import com.sun.java.swing.plaf.motif.MotifCheckBoxUI;
-import com.sun.java.swing.plaf.motif.MotifToggleButtonUI;
-import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
-import com.sun.java.swing.plaf.windows.WindowsButtonUI;
-
 import javax.swing.*;
-import javax.swing.plaf.ButtonUI;
-import javax.swing.plaf.basic.BasicButtonUI;
-import javax.swing.plaf.metal.MetalToggleButtonUI;
-import javax.swing.plaf.multi.MultiButtonUI;
-import javax.swing.plaf.multi.MultiLookAndFeel;
-import javax.swing.plaf.synth.SynthButtonUI;
-import javax.swing.plaf.synth.SynthLookAndFeel;
-import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
-/**
- * Created by Levon on 6/9/2016.
- */
 public class QuestionPageCanvas extends Canvas {
 
-    private static final int QUESTION_AREA_PAGE_X=150;
-    private static final int QUESTION_AREA_PAGE_Y=50;
-    private static final int QUESTION_AREA_PAGE_WIDTH=500;
-    private static final int QUESTION_AREA_PAGE_HEIGHT=250;
-
-    private static final int LEFT_ANSWERS_X=20;
-    private static final int A_ANSWERS_Y=350;
-    private static final int C_ANSWERS_Y=430;
-    private static final int RIGHT_ANSWERS_X=440;
-    private static final int ANSWERS_BUTTON_WIDTH=340;
-    private static final int ANSWERS_BUTTON_HEIGHT=50;
-
-    JTextArea textArea= new JTextArea();
-    JButton button_A=new JButton("A:");
-    JButton button_B=new JButton("B:");
-    JButton button_C=new JButton("C:");
-    JButton button_D=new JButton("D:");
+    private static final int HEADER_CONTENT_X=200;
+    private static final int HEADER_CONTENT_Y=-20;
+    private static final int HEADER_CONTENT_W=400;
+    private static final int HEADER_CONTENT_H=100;
 
 
-    public QuestionPageCanvas() {
+    private static final int QUESTION_AREA_PAGE_X = 50;
+    private static final int QUESTION_AREA_PAGE_Y = 80;
+    private static final int QUESTION_AREA_PAGE_WIDTH = 700;
+    private static final int QUESTION_AREA_PAGE_HEIGHT = 250;
 
+    private static final int LEFT_ANSWERS_X = 20;
+    private static final int A_ANSWERS_Y = 370;
+    private static final int C_ANSWERS_Y = 450;
+    private static final int RIGHT_ANSWERS_X = 440;
+    private static final int ANSWERS_BUTTON_WIDTH = 340;
+    private static final int ANSWERS_BUTTON_HEIGHT = 50;
 
+    JButton button_A = new JButton("A:");
+    JButton button_B = new JButton("B:");
+    JButton button_C = new JButton("C:");
+    JButton button_D = new JButton("D:");
 
-        textArea.setAlignmentX(Component.CENTER_ALIGNMENT);
-        textArea.setText("Who are you?");
+    JLabel question= new JLabel();
+    JLabel answer_A= new JLabel();
+    JLabel answer_B= new JLabel();
+    JLabel answer_C= new JLabel();
+    JLabel answer_D= new JLabel();
 
-        textArea.setFont(new Font("myfont",Font.CENTER_BASELINE,24));
-        button_A.setBackground(new Color(0x4859AD));
-        button_B.setBackground(new Color(0x4859AD));
-        button_C.setBackground(new Color(0x4859AD));
-        button_D.setBackground(new Color(0x4859AD));
-
-LookAndFeel lookAndFeel= new javax.swing.plaf.nimbus.NimbusLookAndFeel();
+    public QuestionPageCanvas(Frame frame) {
+        super(frame);
         try {
-            UIManager.setLookAndFeel(lookAndFeel);
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        add(textArea);
+        button_A.setOpaque(false);
+        button_B.setOpaque(false);
+        button_C.setOpaque(false);
+        button_D.setOpaque(false);
+
         add(button_A);
         add(button_B);
         add(button_C);
         add(button_D);
 
+        button_A.addActionListener(e -> setChangeMode(ModeActivity.RESULT_PAGE));
+        button_B.addActionListener(e -> setChangeMode(ModeActivity.RESULT_PAGE));
+        button_C.addActionListener(e -> setChangeMode(ModeActivity.RESULT_PAGE));
+        button_D.addActionListener(e -> setChangeMode(ModeActivity.RESULT_PAGE));
+
+    }
+
+    @Override
+    protected void setButtonBounds(Graphics g) {
+        button_A.setBounds(LEFT_ANSWERS_X, A_ANSWERS_Y, ANSWERS_BUTTON_WIDTH, ANSWERS_BUTTON_HEIGHT);
+        button_B.setBounds(RIGHT_ANSWERS_X, A_ANSWERS_Y, ANSWERS_BUTTON_WIDTH, ANSWERS_BUTTON_HEIGHT);
+        button_C.setBounds(LEFT_ANSWERS_X, C_ANSWERS_Y, ANSWERS_BUTTON_WIDTH, ANSWERS_BUTTON_HEIGHT);
+        button_D.setBounds(RIGHT_ANSWERS_X, C_ANSWERS_Y, ANSWERS_BUTTON_WIDTH, ANSWERS_BUTTON_HEIGHT);
     }
 
 
-    private void questionsPage(Graphics g) {
+    private void drawQuestionsPage(Graphics g) {
+        drawBackground(g);
+        setButtonBounds(g);
 
-        image= new ImageIcon(getClass().getResource("icons/question.png")).getImage();
-        g.drawImage(image,QUESTION_AREA_PAGE_X,QUESTION_AREA_PAGE_Y,QUESTION_AREA_PAGE_WIDTH,QUESTION_AREA_PAGE_HEIGHT,null);
-        textArea.setBounds(QUESTION_AREA_PAGE_X,QUESTION_AREA_PAGE_Y+2,QUESTION_AREA_PAGE_WIDTH,QUESTION_AREA_PAGE_HEIGHT-30);
-        textArea.setEditable(false);
-        textArea.setBackground(Color.lightGray);
+        image = new ImageIcon(getClass().getResource("icons/header.png")).getImage();
+        g.drawImage(image, HEADER_CONTENT_X, HEADER_CONTENT_Y, HEADER_CONTENT_W, HEADER_CONTENT_H, null);
 
-        button_A.setBounds(LEFT_ANSWERS_X,A_ANSWERS_Y,ANSWERS_BUTTON_WIDTH,ANSWERS_BUTTON_HEIGHT);
-        button_B.setBounds(RIGHT_ANSWERS_X,A_ANSWERS_Y,ANSWERS_BUTTON_WIDTH,ANSWERS_BUTTON_HEIGHT);
-        button_C.setBounds(LEFT_ANSWERS_X,C_ANSWERS_Y,ANSWERS_BUTTON_WIDTH,ANSWERS_BUTTON_HEIGHT);
-        button_D.setBounds(RIGHT_ANSWERS_X,C_ANSWERS_Y,ANSWERS_BUTTON_WIDTH,ANSWERS_BUTTON_HEIGHT);
+        image = new ImageIcon(getClass().getResource("icons/questionArea.png")).getImage();
+        g.drawImage(image, QUESTION_AREA_PAGE_X, QUESTION_AREA_PAGE_Y, QUESTION_AREA_PAGE_WIDTH, QUESTION_AREA_PAGE_HEIGHT, null);
 
-//
-//        image= new ImageIcon(getClass().getResource("icons/A.png")).getImage();
-//        g.drawImage(image,LEFT_ANSWERS_X,A_ANSWERS_Y,ANSWERS_BUTTON_WIDTH,ANSWERS_BUTTON_HEIGHT,null);
-//
-//        image= new ImageIcon(getClass().getResource("icons/C.png")).getImage();
-//        g.drawImage(image,LEFT_ANSWERS_X,C_ANSWERS_Y,ANSWERS_BUTTON_WIDTH,ANSWERS_BUTTON_HEIGHT,null);
-//
-//        image= new ImageIcon(getClass().getResource("icons/B.png")).getImage();
-//        g.drawImage(image,RIGHT_ANSWERS_X,A_ANSWERS_Y,ANSWERS_BUTTON_WIDTH,ANSWERS_BUTTON_HEIGHT,null);
-//
-//        image= new ImageIcon(getClass().getResource("icons/D.png")).getImage();
-//        g.drawImage(image,RIGHT_ANSWERS_X,C_ANSWERS_Y,ANSWERS_BUTTON_WIDTH,ANSWERS_BUTTON_HEIGHT,null);
+        image = new ImageIcon(getClass().getResource("icons/answersbutton.png")).getImage();
+        g.drawImage(image, LEFT_ANSWERS_X, A_ANSWERS_Y, ANSWERS_BUTTON_WIDTH, ANSWERS_BUTTON_HEIGHT, null);
 
+        image = new ImageIcon(getClass().getResource("icons/answersbutton.png")).getImage();
+        g.drawImage(image, RIGHT_ANSWERS_X, A_ANSWERS_Y, ANSWERS_BUTTON_WIDTH, ANSWERS_BUTTON_HEIGHT, null);
+
+        image = new ImageIcon(getClass().getResource("icons/answersbutton.png")).getImage();
+        g.drawImage(image, LEFT_ANSWERS_X, C_ANSWERS_Y, ANSWERS_BUTTON_WIDTH, ANSWERS_BUTTON_HEIGHT, null);
+
+        image = new ImageIcon(getClass().getResource("icons/answersbutton.png")).getImage();
+        g.drawImage(image, RIGHT_ANSWERS_X, C_ANSWERS_Y, ANSWERS_BUTTON_WIDTH, ANSWERS_BUTTON_HEIGHT, null);
 
     }
 
@@ -104,7 +95,7 @@ LookAndFeel lookAndFeel= new javax.swing.plaf.nimbus.NimbusLookAndFeel();
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        questionsPage(g);
+        drawQuestionsPage(g);
         System.out.println("hellllo");
     }
 }
