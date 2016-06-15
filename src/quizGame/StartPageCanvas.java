@@ -48,7 +48,7 @@ public class StartPageCanvas extends Canvas {
         add(exitButton);
 
         exitButton.addActionListener(e ->  System.exit(0));
-        playButton.addActionListener(e -> {JOptionPane.showInputDialog("Enter your name, please");setChangeMode(ModeActivity.SUBJECT_SELECT_PAGE);});
+        playButton.addActionListener(e -> {userName = JOptionPane.showInputDialog("Enter your name, please");setChangeMode(ModeActivity.SUBJECT_SELECT_PAGE);});
 
     }
 

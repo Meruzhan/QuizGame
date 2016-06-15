@@ -22,14 +22,16 @@ public class SubjectPageCanvas extends Canvas {
 
     private JButton math;
     private JButton physic;
-    private JButton biology;
+    private JButton anatomy;
     private JButton chemistry;
     private JButton geography;
     private JButton sport;
     private JButton literature;
     private JButton history;
-    private JButton informatics;
-    private JButton secret;
+    private JButton art;
+    private JButton movies;
+    private String subjectName;
+
 
     public SubjectPageCanvas(Frame frame) {
         super(frame);
@@ -37,62 +39,100 @@ public class SubjectPageCanvas extends Canvas {
         math = new JButton();
         physic = new JButton();
         history = new JButton();
-        informatics = new JButton();
-        biology = new JButton();
+        art = new JButton();
+        anatomy = new JButton();
         chemistry = new JButton();
         literature = new JButton();
-        secret = new JButton();
+        movies = new JButton();
         sport = new JButton();
         geography = new JButton();
 
         math.setOpaque(false);
         physic.setOpaque(false);
         history.setOpaque(false);
-        informatics.setOpaque(false);
-        biology.setOpaque(false);
+        art.setOpaque(false);
+        anatomy.setOpaque(false);
         chemistry.setOpaque(false);
         literature.setOpaque(false);
-        secret.setOpaque(false);
+        movies.setOpaque(false);
         sport.setOpaque(false);
         geography.setOpaque(false);
 
         add(math);
         add(physic);
         add(history);
-        add(informatics);
-        add(biology);
+        add(art);
+        add(anatomy);
         add(chemistry);
         add(literature);
-        add(secret);
+        add(movies);
         add(sport);
         add(geography);
 
-        physic.addActionListener(e -> setChangeMode(ModeActivity.QUESTION_PAGE));
-        math.addActionListener(e -> setChangeMode(ModeActivity.QUESTION_PAGE));
-        informatics.addActionListener(e -> setChangeMode(ModeActivity.QUESTION_PAGE));
-        history.addActionListener(e -> setChangeMode(ModeActivity.QUESTION_PAGE));
-        chemistry.addActionListener(e -> setChangeMode(ModeActivity.QUESTION_PAGE));
-        literature.addActionListener(e -> setChangeMode(ModeActivity.QUESTION_PAGE));
-        secret.addActionListener(e -> setChangeMode(ModeActivity.QUESTION_PAGE));
-        sport.addActionListener(e -> setChangeMode(ModeActivity.QUESTION_PAGE));
-        geography.addActionListener(e -> setChangeMode(ModeActivity.QUESTION_PAGE));
-        biology.addActionListener(e -> setChangeMode(ModeActivity.QUESTION_PAGE));
+        physic.addActionListener(e -> {
+            subjectName = "PHYSICS";
+            setChangeMode(ModeActivity.QUESTION_PAGE);
+        });
+        math.addActionListener(e ->{
+            subjectName = "secret";
+            setChangeMode(ModeActivity.QUESTION_PAGE);
+        });
+        art.addActionListener(e -> {
+            subjectName= "Art";
+            setChangeMode(ModeActivity.QUESTION_PAGE);
+        });
+        history.addActionListener(e -> {
+            subjectName = "HISTORY";
+            setChangeMode(ModeActivity.QUESTION_PAGE);
+        });
+        chemistry.addActionListener(e ->{
+            subjectName = "CHEMISTRY";
+            setChangeMode(ModeActivity.QUESTION_PAGE);
+        });
+        literature.addActionListener(e ->{
+            subjectName= "LITERATURE";
+            setChangeMode(ModeActivity.QUESTION_PAGE);
+
+        });
+        movies.addActionListener(e -> {
+            subjectName = "MOVIES";
+            setChangeMode(ModeActivity.QUESTION_PAGE);
+        });
+        sport.addActionListener(e ->{
+            subjectName= "SPORT";
+            setChangeMode(ModeActivity.QUESTION_PAGE);
+        });
+        geography.addActionListener(e ->{
+            subjectName= "GEOGRAPHY";
+            setChangeMode(ModeActivity.QUESTION_PAGE);
+
+        });
+        anatomy.addActionListener(e ->{
+            subjectName="ANATOMY";
+            setChangeMode(ModeActivity.QUESTION_PAGE);
+
+        });
+
 
 
     }
+@Override
+protected void setChangeMode(ModeActivity mode){
+frame.setCanvas(new QuestionPageCanvas(frame,subjectName));
+}
 
     @Override
     protected void setButtonBounds(Graphics g) {
         math.setBounds(FIRST_COLUMN_SUBJECT_X, SUBJECT_1_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
-        biology.setBounds(FIRST_COLUMN_SUBJECT_X, SUBJECT_2_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
+        anatomy.setBounds(FIRST_COLUMN_SUBJECT_X, SUBJECT_2_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
         chemistry.setBounds(FIRST_COLUMN_SUBJECT_X, SUBJECT_3_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
         geography.setBounds(FIRST_COLUMN_SUBJECT_X, SUBJECT_4_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
         history.setBounds(FIRST_COLUMN_SUBJECT_X, SUBJECT_5_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
-        informatics.setBounds(SECOND_COLUMN_SUBJECT_X, SUBJECT_1_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
+        art.setBounds(SECOND_COLUMN_SUBJECT_X, SUBJECT_1_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
         literature.setBounds(SECOND_COLUMN_SUBJECT_X, SUBJECT_2_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
         physic.setBounds(SECOND_COLUMN_SUBJECT_X, SUBJECT_3_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
         sport.setBounds(SECOND_COLUMN_SUBJECT_X, SUBJECT_4_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
-        secret.setBounds(SECOND_COLUMN_SUBJECT_X, SUBJECT_5_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
+        movies.setBounds(SECOND_COLUMN_SUBJECT_X, SUBJECT_5_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT);
 
     }
 
@@ -101,13 +141,13 @@ public class SubjectPageCanvas extends Canvas {
         drawBackground(g);
         setButtonBounds(g);
 
-        image = new ImageIcon(getClass().getResource("icons/theme.png")).getImage();
+        image = new ImageIcon(getClass().getResource("icons/selectTheme.png")).getImage();
         g.drawImage(image, SUBJECT_PAGE_TITLE_X, SUBJECT_PAGE_TITLE_Y, SUBJECT_PAGE_TITLE_WIDTH, SUBJECT_PAGE_TITLE_HEIGHT, null);
 
         image = new ImageIcon(getClass().getResource("icons/math.png")).getImage();
         g.drawImage(image, FIRST_COLUMN_SUBJECT_X, SUBJECT_1_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT, null);
 
-        image = new ImageIcon(getClass().getResource("icons/biology.png")).getImage();
+        image = new ImageIcon(getClass().getResource("icons/anatomy.png")).getImage();
         g.drawImage(image, FIRST_COLUMN_SUBJECT_X, SUBJECT_2_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT, null);
 
 
@@ -123,7 +163,7 @@ public class SubjectPageCanvas extends Canvas {
         g.drawImage(image, FIRST_COLUMN_SUBJECT_X, SUBJECT_5_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT, null);
 
 
-        image = new ImageIcon(getClass().getResource("icons/inform.png")).getImage();
+        image = new ImageIcon(getClass().getResource("icons/art.png")).getImage();
         g.drawImage(image, SECOND_COLUMN_SUBJECT_X, SUBJECT_1_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT, null);
 
 
@@ -139,7 +179,7 @@ public class SubjectPageCanvas extends Canvas {
         g.drawImage(image, SECOND_COLUMN_SUBJECT_X, SUBJECT_4_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT, null);
 
 
-        image = new ImageIcon(getClass().getResource("icons/secret.png")).getImage();
+        image = new ImageIcon(getClass().getResource("icons/movies.png")).getImage();
         g.drawImage(image, SECOND_COLUMN_SUBJECT_X, SUBJECT_5_Y, SUBJECT_WIDTH, SUBJECT_HEIGHT, null);
 
 

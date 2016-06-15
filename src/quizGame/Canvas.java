@@ -10,6 +10,8 @@ public abstract class Canvas extends JPanel {
     protected Image image;
     protected  Image bgImage;
     protected Frame frame;
+    protected static String userName;
+   protected static int correctAnswersCount=0;
     public Canvas(Frame frame ){
 
         setSize(400,400);
@@ -29,7 +31,7 @@ public abstract class Canvas extends JPanel {
                 frame.setCanvas(new SubjectPageCanvas(frame));
                  break;
             case QUESTION_PAGE:
-                frame.setCanvas(new QuestionPageCanvas(frame));
+                frame.setCanvas(new QuestionPageCanvas(frame,"secert"));
                 break;
             case RESULT_PAGE:
                 frame.setCanvas(new ResultPageCanvas(frame));

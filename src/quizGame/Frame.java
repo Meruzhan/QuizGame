@@ -55,8 +55,8 @@ public class Frame extends JFrame {
 //        }
         add(canvas, BorderLayout.CENTER);
 
-        setSize(800, 600);
-        setResizable(true);
+        setSize(818, 650);
+        setResizable(false);
         setLocationRelativeTo(this);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
