@@ -1,9 +1,11 @@
 package quizGame;
 
 import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.InputStream;
 
 import static quizGame.Frame.audioStream;
 import static quizGame.Frame.music;
@@ -47,7 +49,17 @@ public class StartPageCanvas extends Canvas {
         add(playButton);
         add(exitButton);
         add(muteButton);
-        muteButton.addActionListener(e -> AudioPlayer.player.stop(audioStream));
+        muteButton.addActionListener(e -> {
+            System.out.println(AudioPlayer.player.getState());
+
+            System.out.println(AudioPlayer.player.isInterrupted());
+            if (!AudioPlayer.player.isInterrupted()) {
+                AudioPlayer.player.stop(audioStream);
+                AudioPlayer.player.interrupt();
+            } else {
+                AudioPlayer.player.start(audioStream);
+            }
+        });
         exitButton.addActionListener(e -> System.exit(0));
         playButton.addActionListener(e -> {
             music();
@@ -56,7 +68,7 @@ public class StartPageCanvas extends Canvas {
             UI.put("Panel.background", new Color(0xA46611));
 
             userName = JOptionPane.showInputDialog(this, "Enter your name, please", "Player", JOptionPane.PLAIN_MESSAGE);
-            if (userName.equals("")) {
+            if (userName == null || userName.equals("")) {
                 userName = "Player";
             }
             setChangeMode(ModeActivity.SUBJECT_SELECT_PAGE);

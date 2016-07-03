@@ -72,6 +72,9 @@ class QuestionPageCanvas extends Canvas {
     private ArrayList<String> answers = new ArrayList<>();
     static int currentTime = 0;
     static int time = 0;
+    Thread t;
+
+    private boolean isRun;
 
 
     QuestionPageCanvas(Frame frame, String subjectName) {
@@ -125,7 +128,18 @@ class QuestionPageCanvas extends Canvas {
             music();
         });
 
-        muteButton.addActionListener(e -> AudioPlayer.player.stop(audioStream));
+        muteButton.addActionListener(e -> {
+               if(AudioPlayer.State.TIMED_WAITING==AudioPlayer.player.getState()) {
+                   AudioPlayer.player.stop(audioStream);
+               }else {
+                   AudioPlayer.player.start(audioStream);
+
+               }
+        });
+
+
+
+
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -158,6 +172,8 @@ class QuestionPageCanvas extends Canvas {
             e.printStackTrace();
         }
 
+        t = new Thread(new TimerGame());
+
     }
 
 
@@ -166,6 +182,7 @@ class QuestionPageCanvas extends Canvas {
 
 
             setChangeMode(ModeActivity.RESULT_PAGE);
+            isRun=false;
         } else {
 
             currentResultAnswer();
@@ -209,24 +226,7 @@ class QuestionPageCanvas extends Canvas {
     }
 
     private int getTime() {
-
-        try {
-            if (currentTime > 0) {
-                Thread.sleep(1000);
-                currentTime--;
-
                 return currentTime;
-
-            } else {
-
-                setChangeMode(ModeActivity.RESULT_PAGE);
-                currentTime--;
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return 0;
-
     }
 
     static int getSpendTime() {
@@ -398,7 +398,39 @@ class QuestionPageCanvas extends Canvas {
     public void paint(Graphics g) {
         super.paint(g);
         drawQuestionsPage(g);
-
+        if(Thread.State.NEW == t.getState()){
+            t.start();
+        }
 
     }
+
+    private class TimerGame extends  TimerTask{
+
+
+        public TimerGame() {
+            isRun = true;
+        }
+
+        public void setRun(boolean run) {
+            isRun = run;
+        }
+
+        @Override
+        public void run() {
+            while(isRun) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                currentTime--;
+                repaint();
+                if (currentTime<=0){
+                    isRun= false;
+                    setChangeMode(ModeActivity.RESULT_PAGE);
+                }
+            }
+        }
+    }
+
 }

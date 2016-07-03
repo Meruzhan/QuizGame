@@ -76,103 +76,110 @@ public class SubjectPageCanvas extends Canvas {
         add(geography);
 
         physic.addActionListener(e -> {
-            timeLimit = JOptionPane.showInputDialog(this, "Enter currentTime limit", "Time", JOptionPane.PLAIN_MESSAGE);
             checkInputLimit();
-            setCurrentTime(Integer.parseInt(timeLimit));
-            subjectName = "PHYSICS";
-            order = 7;
-            setChangeMode(ModeActivity.QUESTION_PAGE);
-            music();
+            if(timeLimit!=null) {
+                subjectName = "PHYSICS";
+                order = 7;
+                setChangeMode(ModeActivity.QUESTION_PAGE);
+                music();
+            }
         });
         math.addActionListener(e -> {
-            timeLimit = JOptionPane.showInputDialog(this, "Enter currentTime limit", "Time", JOptionPane.PLAIN_MESSAGE);
             checkInputLimit();
-            setCurrentTime(Integer.parseInt(timeLimit));
-            subjectName = "secret";
-            order = 0;
-            setChangeMode(ModeActivity.QUESTION_PAGE);
-            music();
+            if(timeLimit!=null) {
+                subjectName = "secret";
+                order = 0;
+                setChangeMode(ModeActivity.QUESTION_PAGE);
+                music();
+            }
         });
         art.addActionListener(e -> {
-            timeLimit = JOptionPane.showInputDialog(this, "Enter currentTime limit", "Time", JOptionPane.PLAIN_MESSAGE);
+
             checkInputLimit();
-            setCurrentTime(Integer.parseInt(timeLimit));
-            subjectName = "Art";
-            order = 5;
-            setChangeMode(ModeActivity.QUESTION_PAGE);
-            music();
+            if(timeLimit!=null) {
+                subjectName = "Art";
+                order = 5;
+                setChangeMode(ModeActivity.QUESTION_PAGE);
+                music();
+            }
         });
         history.addActionListener(e -> {
-            timeLimit = JOptionPane.showInputDialog(this, "Enter currentTime limit", "Time", JOptionPane.PLAIN_MESSAGE);
+
             checkInputLimit();
-            setCurrentTime(Integer.parseInt(timeLimit));
-            subjectName = "HISTORY";
-            order = 4;
-            setChangeMode(ModeActivity.QUESTION_PAGE);
-            music();
+            if(timeLimit!=null) {
+                subjectName = "HISTORY";
+                order = 4;
+                setChangeMode(ModeActivity.QUESTION_PAGE);
+                music();
+            }
         });
         chemistry.addActionListener(e -> {
-            timeLimit = JOptionPane.showInputDialog(this, "Enter currentTime limit", "Time", JOptionPane.PLAIN_MESSAGE);
+
             checkInputLimit();
-            setCurrentTime(Integer.parseInt(timeLimit));
-            subjectName = "CHEMISTRY";
-            order = 2;
-            setChangeMode(ModeActivity.QUESTION_PAGE);
-            music();
+            if(timeLimit!=null) {
+                subjectName = "CHEMISTRY";
+                order = 2;
+                setChangeMode(ModeActivity.QUESTION_PAGE);
+                music();
+            }
         });
         literature.addActionListener(e -> {
-            timeLimit = JOptionPane.showInputDialog(this, "Enter currentTime limit", "Time", JOptionPane.PLAIN_MESSAGE);
-            checkInputLimit();
-            setCurrentTime(Integer.parseInt(timeLimit));
-            subjectName = "LITERATURE";
-            order = 6;
-            setChangeMode(ModeActivity.QUESTION_PAGE);
-            music();
 
+            checkInputLimit();
+            if(timeLimit!=null) {
+                subjectName = "LITERATURE";
+                order = 6;
+                setChangeMode(ModeActivity.QUESTION_PAGE);
+                music();
+            }
         });
         movies.addActionListener(e -> {
-            timeLimit = JOptionPane.showInputDialog(this, "Enter currentTime limit", "Time", JOptionPane.PLAIN_MESSAGE);
+
             checkInputLimit();
-            setCurrentTime(Integer.parseInt(timeLimit));
-            subjectName = "MOVIES";
-            order = 9;
-            setChangeMode(ModeActivity.QUESTION_PAGE);
-            music();
+            if(timeLimit!=null) {
+                subjectName = "MOVIES";
+                order = 9;
+                setChangeMode(ModeActivity.QUESTION_PAGE);
+                music();
+            }
         });
         sport.addActionListener(e -> {
-            timeLimit = JOptionPane.showInputDialog(this, "Enter currentTime limit", "Time", JOptionPane.PLAIN_MESSAGE);
+
             checkInputLimit();
-            setCurrentTime(Integer.parseInt(timeLimit));
-            subjectName = "SPORT";
-            order = 8;
-            setChangeMode(ModeActivity.QUESTION_PAGE);
-            music();
+            if(timeLimit!=null) {
+                subjectName = "SPORT";
+                order = 8;
+                setChangeMode(ModeActivity.QUESTION_PAGE);
+                music();
+            }
         });
         geography.addActionListener(e -> {
-            timeLimit = JOptionPane.showInputDialog(this, "Enter currentTime limit", "Time", JOptionPane.PLAIN_MESSAGE);
-            checkInputLimit();
-            setCurrentTime(Integer.parseInt(timeLimit));
-            subjectName = "GEOGRAPHY";
-            order = 3;
-            setChangeMode(ModeActivity.QUESTION_PAGE);
-            music();
 
+            checkInputLimit();
+            if(timeLimit!=null) {
+                subjectName = "GEOGRAPHY";
+                order = 3;
+                setChangeMode(ModeActivity.QUESTION_PAGE);
+                music();
+            }
         });
         anatomy.addActionListener(e -> {
+
             checkInputLimit();
-            timeLimit = JOptionPane.showInputDialog(this, "Enter currentTime limit", "Time", JOptionPane.PLAIN_MESSAGE);
-            checkInputLimit();
-            setCurrentTime(Integer.parseInt(timeLimit));
-            subjectName = "ANATOMY";
-            order = 1;
-            setChangeMode(ModeActivity.QUESTION_PAGE);
-            music();
+            if(timeLimit!=null) {
+                subjectName = "ANATOMY";
+                order = 1;
+                setChangeMode(ModeActivity.QUESTION_PAGE);
+                music();
+            }
         });
 
 
     }
 
-
+    private void inputTime() {
+        timeLimit = JOptionPane.showInputDialog(this, "Enter currentTime limit", "Time", JOptionPane.PLAIN_MESSAGE);
+    }
 
     @Override
     protected void setChangeMode(ModeActivity mode) {
@@ -246,22 +253,26 @@ public class SubjectPageCanvas extends Canvas {
     }
 
     private void checkInputLimit() {
-        if (timeLimit.equals("")) {
+        inputTime();
+        if (timeLimit == null) {
+            return;
+        } else if (timeLimit.equals("")) {
             timeLimit = "121";
             time = 121;
         }
         for (int i = 0; i < timeLimit.length(); i++) {
             if (timeLimit.charAt(i) < '0' || timeLimit.charAt(i) > '9') {
                 JOptionPane.showMessageDialog(this, "Please enter correct data");
+                checkInputLimit();
                 break;
             }
         }
         if (Integer.parseInt(timeLimit) > 500 || Integer.parseInt(timeLimit) < 10) {
-            JOptionPane.showMessageDialog(this, "Please enter more then 10 min. and less then 500 min.");
-
+            JOptionPane.showMessageDialog(this, "Please enter more then 10 sec. and less then 500 sec.");
+            checkInputLimit();
         }
 
-
+        setCurrentTime(Integer.parseInt(timeLimit));
     }
 
     @Override
