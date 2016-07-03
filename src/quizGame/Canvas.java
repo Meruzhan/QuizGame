@@ -2,36 +2,33 @@ package quizGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public abstract class Canvas extends JPanel {
+abstract class Canvas extends JPanel {
     protected ModeActivity changeMode = ModeActivity.START_PAGE;
-    protected Image image;
-    protected  Image bgImage;
-    protected Frame frame;
-    protected static String userName;
-   protected static int correctAnswersCount=0;
-    public Canvas(Frame frame ){
+    Image image;
+    Frame frame;
+    static String userName;
+    static int correctAnswersCount = 0;
 
-        setSize(400,400);
+    Canvas(Frame frame) {
+
+        setSize(400, 400);
         setVisible(true);
-        this.frame=frame;
-
+        this.frame = frame;
 
 
     }
 
-    protected void setChangeMode(ModeActivity mode){
-        switch (mode){
+    protected void setChangeMode(ModeActivity mode) {
+        switch (mode) {
             case START_PAGE:
                 frame.setCanvas(new StartPageCanvas(frame));
                 break;
             case SUBJECT_SELECT_PAGE:
                 frame.setCanvas(new SubjectPageCanvas(frame));
-                 break;
+                break;
             case QUESTION_PAGE:
-                frame.setCanvas(new QuestionPageCanvas(frame,"secert"));
+                frame.setCanvas(new QuestionPageCanvas(frame, "secert"));
                 break;
             case RESULT_PAGE:
                 frame.setCanvas(new ResultPageCanvas(frame));
@@ -41,9 +38,9 @@ public abstract class Canvas extends JPanel {
 
     }
 
-    protected  void drawBackground(Graphics g){
-        bgImage=new ImageIcon(getClass().getResource("icons/background.png")).getImage();
-        g.drawImage(bgImage,0,0,800,600,null);
+    void drawBackground(Graphics g) {
+        Image bgImage = new ImageIcon(getClass().getResource("../icons/background.jpg")).getImage();
+        g.drawImage(bgImage, 0, 0, 800, 600, null);
     }
 
     protected abstract void setButtonBounds(Graphics g);

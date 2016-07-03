@@ -1,20 +1,23 @@
 package quizGame;
 
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 
 public class Frame extends JFrame {
+    static AudioStream audioStream;
 
-
-    Canvas canvas = new StartPageCanvas(this);
-    Image image;
+    private Canvas canvas = new StartPageCanvas(this);
     Label label;
 
-    public Frame() {
+    private Frame() {
         super("Quiz Game");
 
 
@@ -24,65 +27,56 @@ public class Frame extends JFrame {
             e.printStackTrace();
         }
 
-        //JMenu Items
-
-        JMenuItem newFile = new JMenuItem("New");
-        JMenuItem openFile = new JMenuItem("Open");
-        JMenuItem saveAsFile = new JMenuItem("SaveAs");
-        JMenuItem saveFile = new JMenuItem("Save");
-        JMenuItem exitFile = new JMenuItem("Exit");
-
-
-        JMenuBar menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-
-        //Add Menu
-        JMenu mFile = new JMenu("File");
-
-        mFile.add(newFile);
-        mFile.add(openFile);
-        mFile.add(saveFile);
-        mFile.add(saveAsFile);
-        mFile.add(exitFile);
-        menuBar.add(mFile);
-
-        image = new ImageIcon(getClass().getResource("icons/background.png")).getImage();
-//        setIconImage(new ImageIcon(getClass().getResource("icons/background.png")).getImage());
-//        try {
-//            add(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("icons/background.png")))));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        setIconImage(new ImageIcon(getClass().getResource("../icons/logoIcon.png")).getImage());
+        try {
+            add(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("../icons/background.jpg")))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         add(canvas, BorderLayout.CENTER);
 
-        setSize(818, 650);
+        setSize(800, 630);
         setResizable(false);
         setLocationRelativeTo(this);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
+        InputStream is;
+        is = getClass().getClassLoader().getResourceAsStream("./audio/soundTrack.wav");
+        try {
+
+            audioStream = new AudioStream(is);
+            AudioPlayer.player.start(audioStream);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
 
     }
 
 
-    public void setCanvas(Canvas can) {
+    void setCanvas(Canvas can) {
+        int currentQuestionNumber;
+        if (can instanceof ResultPageCanvas) {
+            currentQuestionNumber = ((QuestionPageCanvas) canvas).getCurrentQuestionNumber();
+            ((ResultPageCanvas) can).setCurrentQuestionNumber(currentQuestionNumber);
+        }
+
         canvas.setVisible(false);
         canvas = can;
-        System.out.println("hi");
-        add(can, BorderLayout.CENTER);
-        // canvas.update(getGraphics());
-//        canvas.setVisible(true);
 
+        add(can, BorderLayout.CENTER);
+    }
+
+    static void music() {
+        AudioClip click;
+        URL urlClick = Frame.class.getResource("../audio/buttonSound.wav");
+        click = Applet.newAudioClip(urlClick);
+        click.play();
 
     }
 
-
-//    @Override
-//    public void paintComponents(Graphics g) {
-//        super.paintComponents(g);
-//
-//        g.drawImage(image, 0, 0, 800, 600, this);
-//    }
 
     public static void main(String[] args) {
         new Frame();
